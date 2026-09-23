@@ -40,7 +40,7 @@ Decisions: [D-0001](decisions/D-0001.md).
 ## Status
 
 0.1.0 built 2026-09-23: 15 JUnit, 11 real-server GameTests, the booth's five photos on the
-GPU inspected (`devtools/verification/0.1.0.md`). Unreleased, no remote, until Rusty's go.
+GPU inspected (`devtools/verification/0.1.0.md`). Published and deployed in pack 1.57.1 (below).
 Ceilings are not in scope; the frame admits them in one line when asked. A wall repeater
 cannot lock a floor repeater beside it (vanilla's lock check is a class check that cannot be
 widened safely); everything else crosses the seam.
