@@ -44,3 +44,13 @@ GPU inspected (`devtools/verification/0.1.0.md`). Unreleased, no remote, until R
 Ceilings are not in scope; the frame admits them in one line when asked. A wall repeater
 cannot lock a floor repeater beside it (vanilla's lock check is a class check that cannot be
 widened safely); everything else crosses the seam.
+
+## Published and deployed — 2026-09-23, pack 1.57.1
+
+Version 0.1.0 is [published](https://github.com/the-rusty-shackleford/minecraft-redstonewall-jackson/releases/tag/v0.1.0)
+(the repository made public the same evening) and deployed through Mod Hub in pack
+**1.57.1** as a new entry on both sides. Release asset, tested jar and installed server jar
+match SHA-1 `4c0d7d290a6601f829352ac1adac813a9960b350`. Restart 23:06:21 UTC with nobody
+online after the warning; ready at 23:06:35, the mod and its two mixins loaded without a
+complaint naming them, 20 TPS, Mod Hub parity clean. Not yet seen in play; Rusty's
+in-game vetting is the next step.
