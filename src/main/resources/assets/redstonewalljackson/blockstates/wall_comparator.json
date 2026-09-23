@@ -1,0 +1,460 @@
+{
+  "variants": {
+    "facing=up,mode=compare,powered=false,wall=north": {
+      "model": "redstonewalljackson:block/wall_comparator",
+      "x": 90
+    },
+    "facing=up,mode=compare,powered=true,wall=north": {
+      "model": "redstonewalljackson:block/wall_comparator_on",
+      "x": 90
+    },
+    "facing=up,mode=subtract,powered=false,wall=north": {
+      "model": "redstonewalljackson:block/wall_comparator_subtract",
+      "x": 90
+    },
+    "facing=up,mode=subtract,powered=true,wall=north": {
+      "model": "redstonewalljackson:block/wall_comparator_on_subtract",
+      "x": 90
+    },
+    "facing=down,mode=compare,powered=false,wall=north": {
+      "model": "redstonewalljackson:block/wall_comparator",
+      "x": 270,
+      "y": 180
+    },
+    "facing=down,mode=compare,powered=true,wall=north": {
+      "model": "redstonewalljackson:block/wall_comparator_on",
+      "x": 270,
+      "y": 180
+    },
+    "facing=down,mode=subtract,powered=false,wall=north": {
+      "model": "redstonewalljackson:block/wall_comparator_subtract",
+      "x": 270,
+      "y": 180
+    },
+    "facing=down,mode=subtract,powered=true,wall=north": {
+      "model": "redstonewalljackson:block/wall_comparator_on_subtract",
+      "x": 270,
+      "y": 180
+    },
+    "facing=north,mode=compare,powered=false,wall=north": {
+      "model": "redstonewalljackson:block/wall_comparator",
+      "x": 90
+    },
+    "facing=north,mode=compare,powered=true,wall=north": {
+      "model": "redstonewalljackson:block/wall_comparator_on",
+      "x": 90
+    },
+    "facing=north,mode=subtract,powered=false,wall=north": {
+      "model": "redstonewalljackson:block/wall_comparator_subtract",
+      "x": 90
+    },
+    "facing=north,mode=subtract,powered=true,wall=north": {
+      "model": "redstonewalljackson:block/wall_comparator_on_subtract",
+      "x": 90
+    },
+    "facing=south,mode=compare,powered=false,wall=north": {
+      "model": "redstonewalljackson:block/wall_comparator",
+      "x": 90
+    },
+    "facing=south,mode=compare,powered=true,wall=north": {
+      "model": "redstonewalljackson:block/wall_comparator_on",
+      "x": 90
+    },
+    "facing=south,mode=subtract,powered=false,wall=north": {
+      "model": "redstonewalljackson:block/wall_comparator_subtract",
+      "x": 90
+    },
+    "facing=south,mode=subtract,powered=true,wall=north": {
+      "model": "redstonewalljackson:block/wall_comparator_on_subtract",
+      "x": 90
+    },
+    "facing=west,mode=compare,powered=false,wall=north": {
+      "model": "redstonewalljackson:block/wall_comparator_yaw90",
+      "x": 90
+    },
+    "facing=west,mode=compare,powered=true,wall=north": {
+      "model": "redstonewalljackson:block/wall_comparator_on_yaw90",
+      "x": 90
+    },
+    "facing=west,mode=subtract,powered=false,wall=north": {
+      "model": "redstonewalljackson:block/wall_comparator_subtract_yaw90",
+      "x": 90
+    },
+    "facing=west,mode=subtract,powered=true,wall=north": {
+      "model": "redstonewalljackson:block/wall_comparator_on_subtract_yaw90",
+      "x": 90
+    },
+    "facing=east,mode=compare,powered=false,wall=north": {
+      "model": "redstonewalljackson:block/wall_comparator_yaw90",
+      "x": 270,
+      "y": 180
+    },
+    "facing=east,mode=compare,powered=true,wall=north": {
+      "model": "redstonewalljackson:block/wall_comparator_on_yaw90",
+      "x": 270,
+      "y": 180
+    },
+    "facing=east,mode=subtract,powered=false,wall=north": {
+      "model": "redstonewalljackson:block/wall_comparator_subtract_yaw90",
+      "x": 270,
+      "y": 180
+    },
+    "facing=east,mode=subtract,powered=true,wall=north": {
+      "model": "redstonewalljackson:block/wall_comparator_on_subtract_yaw90",
+      "x": 270,
+      "y": 180
+    },
+    "facing=up,mode=compare,powered=false,wall=east": {
+      "model": "redstonewalljackson:block/wall_comparator",
+      "x": 90,
+      "y": 90
+    },
+    "facing=up,mode=compare,powered=true,wall=east": {
+      "model": "redstonewalljackson:block/wall_comparator_on",
+      "x": 90,
+      "y": 90
+    },
+    "facing=up,mode=subtract,powered=false,wall=east": {
+      "model": "redstonewalljackson:block/wall_comparator_subtract",
+      "x": 90,
+      "y": 90
+    },
+    "facing=up,mode=subtract,powered=true,wall=east": {
+      "model": "redstonewalljackson:block/wall_comparator_on_subtract",
+      "x": 90,
+      "y": 90
+    },
+    "facing=down,mode=compare,powered=false,wall=east": {
+      "model": "redstonewalljackson:block/wall_comparator",
+      "x": 270,
+      "y": 270
+    },
+    "facing=down,mode=compare,powered=true,wall=east": {
+      "model": "redstonewalljackson:block/wall_comparator_on",
+      "x": 270,
+      "y": 270
+    },
+    "facing=down,mode=subtract,powered=false,wall=east": {
+      "model": "redstonewalljackson:block/wall_comparator_subtract",
+      "x": 270,
+      "y": 270
+    },
+    "facing=down,mode=subtract,powered=true,wall=east": {
+      "model": "redstonewalljackson:block/wall_comparator_on_subtract",
+      "x": 270,
+      "y": 270
+    },
+    "facing=north,mode=compare,powered=false,wall=east": {
+      "model": "redstonewalljackson:block/wall_comparator_yaw90",
+      "x": 90,
+      "y": 90
+    },
+    "facing=north,mode=compare,powered=true,wall=east": {
+      "model": "redstonewalljackson:block/wall_comparator_on_yaw90",
+      "x": 90,
+      "y": 90
+    },
+    "facing=north,mode=subtract,powered=false,wall=east": {
+      "model": "redstonewalljackson:block/wall_comparator_subtract_yaw90",
+      "x": 90,
+      "y": 90
+    },
+    "facing=north,mode=subtract,powered=true,wall=east": {
+      "model": "redstonewalljackson:block/wall_comparator_on_subtract_yaw90",
+      "x": 90,
+      "y": 90
+    },
+    "facing=south,mode=compare,powered=false,wall=east": {
+      "model": "redstonewalljackson:block/wall_comparator_yaw90",
+      "x": 270,
+      "y": 270
+    },
+    "facing=south,mode=compare,powered=true,wall=east": {
+      "model": "redstonewalljackson:block/wall_comparator_on_yaw90",
+      "x": 270,
+      "y": 270
+    },
+    "facing=south,mode=subtract,powered=false,wall=east": {
+      "model": "redstonewalljackson:block/wall_comparator_subtract_yaw90",
+      "x": 270,
+      "y": 270
+    },
+    "facing=south,mode=subtract,powered=true,wall=east": {
+      "model": "redstonewalljackson:block/wall_comparator_on_subtract_yaw90",
+      "x": 270,
+      "y": 270
+    },
+    "facing=west,mode=compare,powered=false,wall=east": {
+      "model": "redstonewalljackson:block/wall_comparator",
+      "x": 90,
+      "y": 90
+    },
+    "facing=west,mode=compare,powered=true,wall=east": {
+      "model": "redstonewalljackson:block/wall_comparator_on",
+      "x": 90,
+      "y": 90
+    },
+    "facing=west,mode=subtract,powered=false,wall=east": {
+      "model": "redstonewalljackson:block/wall_comparator_subtract",
+      "x": 90,
+      "y": 90
+    },
+    "facing=west,mode=subtract,powered=true,wall=east": {
+      "model": "redstonewalljackson:block/wall_comparator_on_subtract",
+      "x": 90,
+      "y": 90
+    },
+    "facing=east,mode=compare,powered=false,wall=east": {
+      "model": "redstonewalljackson:block/wall_comparator",
+      "x": 90,
+      "y": 90
+    },
+    "facing=east,mode=compare,powered=true,wall=east": {
+      "model": "redstonewalljackson:block/wall_comparator_on",
+      "x": 90,
+      "y": 90
+    },
+    "facing=east,mode=subtract,powered=false,wall=east": {
+      "model": "redstonewalljackson:block/wall_comparator_subtract",
+      "x": 90,
+      "y": 90
+    },
+    "facing=east,mode=subtract,powered=true,wall=east": {
+      "model": "redstonewalljackson:block/wall_comparator_on_subtract",
+      "x": 90,
+      "y": 90
+    },
+    "facing=up,mode=compare,powered=false,wall=south": {
+      "model": "redstonewalljackson:block/wall_comparator",
+      "x": 90,
+      "y": 180
+    },
+    "facing=up,mode=compare,powered=true,wall=south": {
+      "model": "redstonewalljackson:block/wall_comparator_on",
+      "x": 90,
+      "y": 180
+    },
+    "facing=up,mode=subtract,powered=false,wall=south": {
+      "model": "redstonewalljackson:block/wall_comparator_subtract",
+      "x": 90,
+      "y": 180
+    },
+    "facing=up,mode=subtract,powered=true,wall=south": {
+      "model": "redstonewalljackson:block/wall_comparator_on_subtract",
+      "x": 90,
+      "y": 180
+    },
+    "facing=down,mode=compare,powered=false,wall=south": {
+      "model": "redstonewalljackson:block/wall_comparator",
+      "x": 270
+    },
+    "facing=down,mode=compare,powered=true,wall=south": {
+      "model": "redstonewalljackson:block/wall_comparator_on",
+      "x": 270
+    },
+    "facing=down,mode=subtract,powered=false,wall=south": {
+      "model": "redstonewalljackson:block/wall_comparator_subtract",
+      "x": 270
+    },
+    "facing=down,mode=subtract,powered=true,wall=south": {
+      "model": "redstonewalljackson:block/wall_comparator_on_subtract",
+      "x": 270
+    },
+    "facing=north,mode=compare,powered=false,wall=south": {
+      "model": "redstonewalljackson:block/wall_comparator",
+      "x": 90,
+      "y": 180
+    },
+    "facing=north,mode=compare,powered=true,wall=south": {
+      "model": "redstonewalljackson:block/wall_comparator_on",
+      "x": 90,
+      "y": 180
+    },
+    "facing=north,mode=subtract,powered=false,wall=south": {
+      "model": "redstonewalljackson:block/wall_comparator_subtract",
+      "x": 90,
+      "y": 180
+    },
+    "facing=north,mode=subtract,powered=true,wall=south": {
+      "model": "redstonewalljackson:block/wall_comparator_on_subtract",
+      "x": 90,
+      "y": 180
+    },
+    "facing=south,mode=compare,powered=false,wall=south": {
+      "model": "redstonewalljackson:block/wall_comparator",
+      "x": 90,
+      "y": 180
+    },
+    "facing=south,mode=compare,powered=true,wall=south": {
+      "model": "redstonewalljackson:block/wall_comparator_on",
+      "x": 90,
+      "y": 180
+    },
+    "facing=south,mode=subtract,powered=false,wall=south": {
+      "model": "redstonewalljackson:block/wall_comparator_subtract",
+      "x": 90,
+      "y": 180
+    },
+    "facing=south,mode=subtract,powered=true,wall=south": {
+      "model": "redstonewalljackson:block/wall_comparator_on_subtract",
+      "x": 90,
+      "y": 180
+    },
+    "facing=west,mode=compare,powered=false,wall=south": {
+      "model": "redstonewalljackson:block/wall_comparator_yaw90",
+      "x": 270
+    },
+    "facing=west,mode=compare,powered=true,wall=south": {
+      "model": "redstonewalljackson:block/wall_comparator_on_yaw90",
+      "x": 270
+    },
+    "facing=west,mode=subtract,powered=false,wall=south": {
+      "model": "redstonewalljackson:block/wall_comparator_subtract_yaw90",
+      "x": 270
+    },
+    "facing=west,mode=subtract,powered=true,wall=south": {
+      "model": "redstonewalljackson:block/wall_comparator_on_subtract_yaw90",
+      "x": 270
+    },
+    "facing=east,mode=compare,powered=false,wall=south": {
+      "model": "redstonewalljackson:block/wall_comparator_yaw90",
+      "x": 90,
+      "y": 180
+    },
+    "facing=east,mode=compare,powered=true,wall=south": {
+      "model": "redstonewalljackson:block/wall_comparator_on_yaw90",
+      "x": 90,
+      "y": 180
+    },
+    "facing=east,mode=subtract,powered=false,wall=south": {
+      "model": "redstonewalljackson:block/wall_comparator_subtract_yaw90",
+      "x": 90,
+      "y": 180
+    },
+    "facing=east,mode=subtract,powered=true,wall=south": {
+      "model": "redstonewalljackson:block/wall_comparator_on_subtract_yaw90",
+      "x": 90,
+      "y": 180
+    },
+    "facing=up,mode=compare,powered=false,wall=west": {
+      "model": "redstonewalljackson:block/wall_comparator",
+      "x": 90,
+      "y": 270
+    },
+    "facing=up,mode=compare,powered=true,wall=west": {
+      "model": "redstonewalljackson:block/wall_comparator_on",
+      "x": 90,
+      "y": 270
+    },
+    "facing=up,mode=subtract,powered=false,wall=west": {
+      "model": "redstonewalljackson:block/wall_comparator_subtract",
+      "x": 90,
+      "y": 270
+    },
+    "facing=up,mode=subtract,powered=true,wall=west": {
+      "model": "redstonewalljackson:block/wall_comparator_on_subtract",
+      "x": 90,
+      "y": 270
+    },
+    "facing=down,mode=compare,powered=false,wall=west": {
+      "model": "redstonewalljackson:block/wall_comparator",
+      "x": 270,
+      "y": 90
+    },
+    "facing=down,mode=compare,powered=true,wall=west": {
+      "model": "redstonewalljackson:block/wall_comparator_on",
+      "x": 270,
+      "y": 90
+    },
+    "facing=down,mode=subtract,powered=false,wall=west": {
+      "model": "redstonewalljackson:block/wall_comparator_subtract",
+      "x": 270,
+      "y": 90
+    },
+    "facing=down,mode=subtract,powered=true,wall=west": {
+      "model": "redstonewalljackson:block/wall_comparator_on_subtract",
+      "x": 270,
+      "y": 90
+    },
+    "facing=north,mode=compare,powered=false,wall=west": {
+      "model": "redstonewalljackson:block/wall_comparator_yaw90",
+      "x": 270,
+      "y": 90
+    },
+    "facing=north,mode=compare,powered=true,wall=west": {
+      "model": "redstonewalljackson:block/wall_comparator_on_yaw90",
+      "x": 270,
+      "y": 90
+    },
+    "facing=north,mode=subtract,powered=false,wall=west": {
+      "model": "redstonewalljackson:block/wall_comparator_subtract_yaw90",
+      "x": 270,
+      "y": 90
+    },
+    "facing=north,mode=subtract,powered=true,wall=west": {
+      "model": "redstonewalljackson:block/wall_comparator_on_subtract_yaw90",
+      "x": 270,
+      "y": 90
+    },
+    "facing=south,mode=compare,powered=false,wall=west": {
+      "model": "redstonewalljackson:block/wall_comparator_yaw90",
+      "x": 90,
+      "y": 270
+    },
+    "facing=south,mode=compare,powered=true,wall=west": {
+      "model": "redstonewalljackson:block/wall_comparator_on_yaw90",
+      "x": 90,
+      "y": 270
+    },
+    "facing=south,mode=subtract,powered=false,wall=west": {
+      "model": "redstonewalljackson:block/wall_comparator_subtract_yaw90",
+      "x": 90,
+      "y": 270
+    },
+    "facing=south,mode=subtract,powered=true,wall=west": {
+      "model": "redstonewalljackson:block/wall_comparator_on_subtract_yaw90",
+      "x": 90,
+      "y": 270
+    },
+    "facing=west,mode=compare,powered=false,wall=west": {
+      "model": "redstonewalljackson:block/wall_comparator",
+      "x": 90,
+      "y": 270
+    },
+    "facing=west,mode=compare,powered=true,wall=west": {
+      "model": "redstonewalljackson:block/wall_comparator_on",
+      "x": 90,
+      "y": 270
+    },
+    "facing=west,mode=subtract,powered=false,wall=west": {
+      "model": "redstonewalljackson:block/wall_comparator_subtract",
+      "x": 90,
+      "y": 270
+    },
+    "facing=west,mode=subtract,powered=true,wall=west": {
+      "model": "redstonewalljackson:block/wall_comparator_on_subtract",
+      "x": 90,
+      "y": 270
+    },
+    "facing=east,mode=compare,powered=false,wall=west": {
+      "model": "redstonewalljackson:block/wall_comparator",
+      "x": 90,
+      "y": 270
+    },
+    "facing=east,mode=compare,powered=true,wall=west": {
+      "model": "redstonewalljackson:block/wall_comparator_on",
+      "x": 90,
+      "y": 270
+    },
+    "facing=east,mode=subtract,powered=false,wall=west": {
+      "model": "redstonewalljackson:block/wall_comparator_subtract",
+      "x": 90,
+      "y": 270
+    },
+    "facing=east,mode=subtract,powered=true,wall=west": {
+      "model": "redstonewalljackson:block/wall_comparator_on_subtract",
+      "x": 90,
+      "y": 270
+    }
+  }
+}

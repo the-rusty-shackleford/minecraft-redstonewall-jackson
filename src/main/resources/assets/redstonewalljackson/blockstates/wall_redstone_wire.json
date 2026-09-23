@@ -1,0 +1,463 @@
+{
+  "multipart": [
+    {
+      "when": {
+        "OR": [
+          {
+            "facing": "north",
+            "top": "none",
+            "bottom": "none",
+            "left": "none",
+            "right": "none"
+          },
+          {
+            "facing": "north",
+            "top": "side|up",
+            "left": "side|up"
+          },
+          {
+            "facing": "north",
+            "top": "side|up",
+            "right": "side|up"
+          },
+          {
+            "facing": "north",
+            "bottom": "side|up",
+            "left": "side|up"
+          },
+          {
+            "facing": "north",
+            "bottom": "side|up",
+            "right": "side|up"
+          }
+        ]
+      },
+      "apply": {
+        "model": "redstonewalljackson:block/wall_dust_dot"
+      }
+    },
+    {
+      "when": {
+        "facing": "north",
+        "top": "side|up"
+      },
+      "apply": {
+        "model": "redstonewalljackson:block/wall_dust_top"
+      }
+    },
+    {
+      "when": {
+        "facing": "north",
+        "top": "up"
+      },
+      "apply": {
+        "model": "redstonewalljackson:block/wall_dust_up_top"
+      }
+    },
+    {
+      "when": {
+        "facing": "north",
+        "bottom": "side|up"
+      },
+      "apply": {
+        "model": "redstonewalljackson:block/wall_dust_bottom"
+      }
+    },
+    {
+      "when": {
+        "facing": "north",
+        "bottom": "up"
+      },
+      "apply": {
+        "model": "redstonewalljackson:block/wall_dust_up_bottom"
+      }
+    },
+    {
+      "when": {
+        "facing": "north",
+        "left": "side|up"
+      },
+      "apply": {
+        "model": "redstonewalljackson:block/wall_dust_left"
+      }
+    },
+    {
+      "when": {
+        "facing": "north",
+        "left": "up"
+      },
+      "apply": {
+        "model": "redstonewalljackson:block/wall_dust_up_left"
+      }
+    },
+    {
+      "when": {
+        "facing": "north",
+        "right": "side|up"
+      },
+      "apply": {
+        "model": "redstonewalljackson:block/wall_dust_right"
+      }
+    },
+    {
+      "when": {
+        "facing": "north",
+        "right": "up"
+      },
+      "apply": {
+        "model": "redstonewalljackson:block/wall_dust_up_right"
+      }
+    },
+    {
+      "when": {
+        "OR": [
+          {
+            "facing": "east",
+            "top": "none",
+            "bottom": "none",
+            "left": "none",
+            "right": "none"
+          },
+          {
+            "facing": "east",
+            "top": "side|up",
+            "left": "side|up"
+          },
+          {
+            "facing": "east",
+            "top": "side|up",
+            "right": "side|up"
+          },
+          {
+            "facing": "east",
+            "bottom": "side|up",
+            "left": "side|up"
+          },
+          {
+            "facing": "east",
+            "bottom": "side|up",
+            "right": "side|up"
+          }
+        ]
+      },
+      "apply": {
+        "model": "redstonewalljackson:block/wall_dust_dot",
+        "y": 90
+      }
+    },
+    {
+      "when": {
+        "facing": "east",
+        "top": "side|up"
+      },
+      "apply": {
+        "model": "redstonewalljackson:block/wall_dust_top",
+        "y": 90
+      }
+    },
+    {
+      "when": {
+        "facing": "east",
+        "top": "up"
+      },
+      "apply": {
+        "model": "redstonewalljackson:block/wall_dust_up_top",
+        "y": 90
+      }
+    },
+    {
+      "when": {
+        "facing": "east",
+        "bottom": "side|up"
+      },
+      "apply": {
+        "model": "redstonewalljackson:block/wall_dust_bottom",
+        "y": 90
+      }
+    },
+    {
+      "when": {
+        "facing": "east",
+        "bottom": "up"
+      },
+      "apply": {
+        "model": "redstonewalljackson:block/wall_dust_up_bottom",
+        "y": 90
+      }
+    },
+    {
+      "when": {
+        "facing": "east",
+        "left": "side|up"
+      },
+      "apply": {
+        "model": "redstonewalljackson:block/wall_dust_left",
+        "y": 90
+      }
+    },
+    {
+      "when": {
+        "facing": "east",
+        "left": "up"
+      },
+      "apply": {
+        "model": "redstonewalljackson:block/wall_dust_up_left",
+        "y": 90
+      }
+    },
+    {
+      "when": {
+        "facing": "east",
+        "right": "side|up"
+      },
+      "apply": {
+        "model": "redstonewalljackson:block/wall_dust_right",
+        "y": 90
+      }
+    },
+    {
+      "when": {
+        "facing": "east",
+        "right": "up"
+      },
+      "apply": {
+        "model": "redstonewalljackson:block/wall_dust_up_right",
+        "y": 90
+      }
+    },
+    {
+      "when": {
+        "OR": [
+          {
+            "facing": "south",
+            "top": "none",
+            "bottom": "none",
+            "left": "none",
+            "right": "none"
+          },
+          {
+            "facing": "south",
+            "top": "side|up",
+            "left": "side|up"
+          },
+          {
+            "facing": "south",
+            "top": "side|up",
+            "right": "side|up"
+          },
+          {
+            "facing": "south",
+            "bottom": "side|up",
+            "left": "side|up"
+          },
+          {
+            "facing": "south",
+            "bottom": "side|up",
+            "right": "side|up"
+          }
+        ]
+      },
+      "apply": {
+        "model": "redstonewalljackson:block/wall_dust_dot",
+        "y": 180
+      }
+    },
+    {
+      "when": {
+        "facing": "south",
+        "top": "side|up"
+      },
+      "apply": {
+        "model": "redstonewalljackson:block/wall_dust_top",
+        "y": 180
+      }
+    },
+    {
+      "when": {
+        "facing": "south",
+        "top": "up"
+      },
+      "apply": {
+        "model": "redstonewalljackson:block/wall_dust_up_top",
+        "y": 180
+      }
+    },
+    {
+      "when": {
+        "facing": "south",
+        "bottom": "side|up"
+      },
+      "apply": {
+        "model": "redstonewalljackson:block/wall_dust_bottom",
+        "y": 180
+      }
+    },
+    {
+      "when": {
+        "facing": "south",
+        "bottom": "up"
+      },
+      "apply": {
+        "model": "redstonewalljackson:block/wall_dust_up_bottom",
+        "y": 180
+      }
+    },
+    {
+      "when": {
+        "facing": "south",
+        "left": "side|up"
+      },
+      "apply": {
+        "model": "redstonewalljackson:block/wall_dust_left",
+        "y": 180
+      }
+    },
+    {
+      "when": {
+        "facing": "south",
+        "left": "up"
+      },
+      "apply": {
+        "model": "redstonewalljackson:block/wall_dust_up_left",
+        "y": 180
+      }
+    },
+    {
+      "when": {
+        "facing": "south",
+        "right": "side|up"
+      },
+      "apply": {
+        "model": "redstonewalljackson:block/wall_dust_right",
+        "y": 180
+      }
+    },
+    {
+      "when": {
+        "facing": "south",
+        "right": "up"
+      },
+      "apply": {
+        "model": "redstonewalljackson:block/wall_dust_up_right",
+        "y": 180
+      }
+    },
+    {
+      "when": {
+        "OR": [
+          {
+            "facing": "west",
+            "top": "none",
+            "bottom": "none",
+            "left": "none",
+            "right": "none"
+          },
+          {
+            "facing": "west",
+            "top": "side|up",
+            "left": "side|up"
+          },
+          {
+            "facing": "west",
+            "top": "side|up",
+            "right": "side|up"
+          },
+          {
+            "facing": "west",
+            "bottom": "side|up",
+            "left": "side|up"
+          },
+          {
+            "facing": "west",
+            "bottom": "side|up",
+            "right": "side|up"
+          }
+        ]
+      },
+      "apply": {
+        "model": "redstonewalljackson:block/wall_dust_dot",
+        "y": 270
+      }
+    },
+    {
+      "when": {
+        "facing": "west",
+        "top": "side|up"
+      },
+      "apply": {
+        "model": "redstonewalljackson:block/wall_dust_top",
+        "y": 270
+      }
+    },
+    {
+      "when": {
+        "facing": "west",
+        "top": "up"
+      },
+      "apply": {
+        "model": "redstonewalljackson:block/wall_dust_up_top",
+        "y": 270
+      }
+    },
+    {
+      "when": {
+        "facing": "west",
+        "bottom": "side|up"
+      },
+      "apply": {
+        "model": "redstonewalljackson:block/wall_dust_bottom",
+        "y": 270
+      }
+    },
+    {
+      "when": {
+        "facing": "west",
+        "bottom": "up"
+      },
+      "apply": {
+        "model": "redstonewalljackson:block/wall_dust_up_bottom",
+        "y": 270
+      }
+    },
+    {
+      "when": {
+        "facing": "west",
+        "left": "side|up"
+      },
+      "apply": {
+        "model": "redstonewalljackson:block/wall_dust_left",
+        "y": 270
+      }
+    },
+    {
+      "when": {
+        "facing": "west",
+        "left": "up"
+      },
+      "apply": {
+        "model": "redstonewalljackson:block/wall_dust_up_left",
+        "y": 270
+      }
+    },
+    {
+      "when": {
+        "facing": "west",
+        "right": "side|up"
+      },
+      "apply": {
+        "model": "redstonewalljackson:block/wall_dust_right",
+        "y": 270
+      }
+    },
+    {
+      "when": {
+        "facing": "west",
+        "right": "up"
+      },
+      "apply": {
+        "model": "redstonewalljackson:block/wall_dust_up_right",
+        "y": 270
+      }
+    }
+  ]
+}

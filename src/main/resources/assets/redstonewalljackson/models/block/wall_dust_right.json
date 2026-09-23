@@ -1,0 +1,83 @@
+{
+  "ambientocclusion": false,
+  "render_type": "minecraft:cutout",
+  "textures": {
+    "particle": "minecraft:block/redstone_dust_dot",
+    "line": "minecraft:block/redstone_dust_line1",
+    "overlay": "minecraft:block/redstone_dust_overlay"
+  },
+  "elements": [
+    {
+      "from": [
+        0,
+        0,
+        15.75
+      ],
+      "to": [
+        8,
+        16,
+        15.75
+      ],
+      "shade": false,
+      "faces": {
+        "north": {
+          "uv": [
+            0,
+            0,
+            16,
+            8
+          ],
+          "texture": "#line",
+          "rotation": 90,
+          "tintindex": 0
+        },
+        "south": {
+          "uv": [
+            16,
+            0,
+            0,
+            8
+          ],
+          "texture": "#line",
+          "rotation": 90,
+          "tintindex": 0
+        }
+      }
+    },
+    {
+      "from": [
+        0,
+        0,
+        15.75
+      ],
+      "to": [
+        8,
+        16,
+        15.75
+      ],
+      "shade": false,
+      "faces": {
+        "north": {
+          "uv": [
+            0,
+            0,
+            16,
+            8
+          ],
+          "texture": "#overlay",
+          "rotation": 90
+        },
+        "south": {
+          "uv": [
+            16,
+            0,
+            0,
+            8
+          ],
+          "texture": "#overlay",
+          "rotation": 90
+        }
+      }
+    }
+  ]
+}
