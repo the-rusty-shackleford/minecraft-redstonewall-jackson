@@ -47,8 +47,18 @@ Decisions: [D-0001](decisions/D-0001.md), [D-0002](decisions/D-0002.md).
 
 0.2.0 built 2026-09-23 (evening): corners drawn as vanilla's climb, ceilings, and vanilla
 floor dust joining a wall run above it. 16 JUnit, 24 real-server GameTests, the booth's
-thirteen photos on the GPU inspected (`devtools/verification/0.2.0.md`). Not yet released;
-Rusty's go is next, together with the Backpacks+ fixes asked for the same evening.
+thirteen photos on the GPU inspected (`devtools/verification/0.2.0.md`). Published and
+deployed in pack 1.58.0 (below); Rusty's in-play vetting of the corners and ceilings is next.
+
+## Published and deployed — 2026-09-24 UTC, pack 1.58.0
+
+Version 0.2.0 is [published](https://github.com/the-rusty-shackleford/minecraft-redstonewall-jackson/releases/tag/v0.2.0)
+and deployed through Mod Hub in pack **1.58.0**, replacing 0.1.0 on the server. Release
+asset, tested jar and installed server jar match SHA-1 `34e3cadb9d909cc6bd9cd9a69c1f688fb5080df4`.
+Rusty: "go. 2 minute warning then restart server". Restart 00:16:11 UTC after the warning
+(one player still on), ready at 00:16:32, the log noting "redstonewalljackson (version 0.1.0
+-> 0.2.0)" and nothing else naming the mod, 20 TPS, Mod Hub parity clean. The server repo's
+`knowledge/releases/pack-1.58.0.md` has the whole deployment.
 
 0.1.0 (2026-09-23, pack 1.57.1) worked at every corner but drew none of the inside ones:
 Rusty's "seems like wall redstone does not corner". A wall repeater cannot lock a floor
