@@ -14,3 +14,4 @@ tags: [index]
 |----|-------|
 | D-0001 | A wall circuit is the floor circuit turned, in new blocks placed by the vanilla items |
 | D-0002 | The inside corner is vanilla's climb, and the ceiling is the north wall tipped back |
+| D-0003 | A wall diode also reads the block it hangs on |

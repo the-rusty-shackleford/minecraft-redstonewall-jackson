@@ -63,10 +63,18 @@ public final class PhotoBooth {
             {-4.2, 0.4, -2.2, 35, -28},   // close, from beside: the wall run meeting the ceiling run under the roof
             // Two walls meeting at x=23, z=-7: a run along one turning onto the other.
             {27.5, 1.0, -12.5, 39, 8},    // from outside the corner, looking into it
+            // The diodes' faces, close enough to read the arrow: the repeater along the wall at x=8,
+            // and a vertical run at x=-3 with a repeater whose output points up.
+            {8.5, 1.5, -2.3, 0, -18},     // the along-the-wall repeater, its arrow should point east (the viewer's left)
+            {-2.5, 1.6, -2.3, 0, -20},    // the upward repeater, its arrow should point up
+            // Rusty's step at x=31: dust along the top of a block row, a repeater hanging on the row's face below
+            // the edge, its output down into the ground, a lamp in the ground beside it.
+            {31.5, 2.2, -8.0, 0, 28},     // from in front and above, looking down at the face, the top and the lamp
     };
     private static final String[] NAMES = {"wall-front", "wall-angle", "wall-close", "wall-seam", "wall-climb",
             "corner-north", "corner-east", "corner-south", "corner-west",
-            "stair-front", "stair-under", "stair-close", "inside-corner"};
+            "stair-front", "stair-under", "stair-close", "inside-corner",
+            "repeater-along", "repeater-up", "row-repeater"};
 
     @SubscribeEvent
     public static void tick(ClientTickEvent.Post event) {
@@ -217,7 +225,32 @@ public final class PhotoBooth {
             level.setBlock(pos, WallRedstoneWireBlock.placementState(level, pos, Direction.EAST), 3);
         }
         level.setBlock(o.offset(23, 0, -11), Blocks.REDSTONE_LAMP.defaultBlockState(), 3);
+        // A vertical run at x=-3 with a one-tick repeater whose output points up, to a lamp.
+        BlockPos below = o.offset(-3, 1, -1);
+        level.setBlock(below, WallRedstoneWireBlock.placementState(level, below, Direction.NORTH), 3);
+        level.setBlock(o.offset(-3, 2, -1), diode(ModBlocks.WALL_REPEATER.get().defaultBlockState(), Direction.DOWN).setValue(WallRepeaterBlock.DELAY, 1), 3);
+        BlockPos above = o.offset(-3, 3, -1);
+        level.setBlock(above, WallRedstoneWireBlock.placementState(level, above, Direction.NORTH), 3);
+        level.setBlock(o.offset(-3, 4, -1), Blocks.REDSTONE_LAMP.defaultBlockState(), 3);
+        // Rusty's step at x 30..33, z=-3: ground at y=-1, a row of blocks at y=0, dust along its top fed from a
+        // redstone block on the row's east end, a repeater on the row's north face at x=31 hanging below the
+        // edge with its output down into the ground block, and a lamp set in the ground north of that block.
+        for (int x = 29; x <= 34; x++) {
+            for (int z = -7; z <= -1; z++) {
+                level.setBlock(o.offset(x, -1, z), Blocks.STONE.defaultBlockState(), 3);
+            }
+        }
+        for (int x = 30; x <= 33; x++) {
+            level.setBlock(o.offset(x, 0, -3), Blocks.SMOOTH_STONE.defaultBlockState(), 3);
+        }
+        for (int x = 30; x <= 32; x++) {
+            level.setBlock(o.offset(x, 1, -3), Blocks.REDSTONE_WIRE.defaultBlockState(), 3);
+        }
+        level.setBlock(o.offset(31, 0, -4), diode(ModBlocks.WALL_REPEATER.get().defaultBlockState(), Direction.UP).setValue(WallRepeaterBlock.DELAY, 1), 3);
+        level.setBlock(o.offset(31, -1, -5), Blocks.REDSTONE_LAMP.defaultBlockState(), 3);
         // The sources, last.
+        level.setBlock(o.offset(33, 1, -3), Blocks.REDSTONE_BLOCK.defaultBlockState(), 3);
+        level.setBlock(o.offset(-3, 0, -1), Blocks.REDSTONE_BLOCK.defaultBlockState(), 3);
         level.setBlock(o.offset(2, 0, -6), Blocks.REDSTONE_BLOCK.defaultBlockState(), 3);
         level.setBlock(o.offset(5, 2, -1), Blocks.REDSTONE_BLOCK.defaultBlockState(), 3);
         for (BlockPos foot : new BlockPos[] {o.offset(17, -1, -9), o.offset(19, -1, -7), o.offset(17, -1, -5), o.offset(15, -1, -7)}) {

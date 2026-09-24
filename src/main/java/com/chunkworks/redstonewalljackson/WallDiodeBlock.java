@@ -41,9 +41,10 @@ import net.neoforged.neoforge.event.EventHooks;
  * stood up or turned over. {@code WALL} is the plane's outward normal (a horizontal for a wall,
  * down for a ceiling), {@code FACING} the direction its input comes from (a planar direction of
  * that plane: up, down, or along a wall; a horizontal on a ceiling), {@code POWERED} its output.
- * The input is read from the block toward FACING, the output given toward its opposite, the
- * lock and side inputs read beside it in the plane, and it rests on the block behind it as a
- * floor diode rests on the block below. Every timing is vanilla's.
+ * The input is read from the block toward FACING and from the block it hangs on (the one
+ * block a wall diode touches that a floor diode does not), the output given toward FACING's
+ * opposite, the lock and side inputs read beside it in the plane, and it rests on the block
+ * behind it as a floor diode rests on the block below. Every timing is vanilla's.
  *
  * <p>RI: FACING lies in the plane, never along its normal.
  */
@@ -165,7 +166,14 @@ public abstract class WallDiodeBlock extends Block {
         return getInputSignal(level, pos, state) > 0;
     }
 
-    /** effects: returns the signal from the block toward FACING, a wire's power counting even when it points elsewhere, as vanilla reads it */
+    /**
+     * effects: returns the stronger of two inputs: the signal from the block toward FACING, a
+     * wire's power counting even when it points elsewhere, as vanilla reads it; and the signal
+     * of the block this diode hangs on, read as vanilla reads any block behind a repeater, so
+     * dust on top of that block or pointing into it, or a torch under it, feeds the diode
+     * (D-0003; a floor diode's own block is never an input, a wall's is the one block it
+     * touches that a floor's does not)
+     */
     protected int getInputSignal(Level level, BlockPos pos, BlockState state) {
         Direction facing = state.getValue(FACING);
         BlockPos input = pos.relative(facing);
@@ -173,7 +181,9 @@ public abstract class WallDiodeBlock extends Block {
         if (signal >= 15) {
             return signal;
         }
-        return Math.max(signal, Math.max(0, Views.wirePower(level.getBlockState(input))));
+        signal = Math.max(signal, Math.max(0, Views.wirePower(level.getBlockState(input))));
+        Direction support = state.getValue(WALL).getOpposite();
+        return Math.max(signal, level.getSignal(pos.relative(support), support));
     }
 
     /** effects: returns the stronger of the two side inputs beside FACING in the plane */

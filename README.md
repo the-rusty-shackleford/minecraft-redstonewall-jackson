@@ -28,6 +28,14 @@ locks it. A wall comparator reads a container behind it along the wall (or a con
 blocks behind through a solid block, or an item frame on that block), compares or subtracts
 its side inputs, and clicks between modes.
 
+**The block it hangs on.** A wall repeater or comparator also takes power from the block it
+hangs on, the way a floor repeater takes power from any powered block behind it: dust
+running along the top of that block, dust of either kind pointing into it, or a torch under
+it all feed a diode on its face. So a run along the top of a row of blocks can drop into a
+repeater hanging just below the row's edge. A torch standing on the block does not count,
+since a torch never powers the block it is attached to, on walls as on floors; and a
+comparator reads containers only along the wall behind it, never the one it hangs on.
+
 **Corners.** A run turns any corner between planes and draws it. Round an edge (over the top
 of a wall onto the floor above, or from a ceiling down the side of the block it hangs from),
 the two lines meet at the edge. Into a corner (a floor run up a wall, a wall run onto the next
@@ -74,14 +82,21 @@ Three tiers:
   run against its floor twin; a wall run up onto the ceiling and a ceiling run down onto the
   wall, with the ceiling run in front of the top wall dust and directly above the wall run; a
   ceiling run round the edge of the block it hangs from; a ceiling repeater's delay; a click on
-  the underside placing the ceiling forms. The server's exit code is not the assertion; the
-  task reads the framework's "All N required tests passed" line.
+  the underside placing the ceiling forms. Repeaters: placed by the item looking up, down and
+  along a wall, each fed from behind and read ahead; fed from below by floor dust at the
+  wall's foot; fed through a solid block; outputting through one. The block a diode hangs
+  on: dust on top of it feeds a repeater on its face and lets go when the source goes; wall
+  dust into it from another face feeds it; a torch standing on it does not; a comparator on
+  a powered block passes it. The server's exit code is not the assertion; the task reads the
+  framework's "All N required tests passed" line.
 - `./gradlew runPhotoBooth`: a client that builds the scenes and photographs them into
   `run/booth/screenshots`, then quits: the wall with a dust run climbing it from a floor run, a
   repeater, two comparators and a lamp (front, angle, close, seam, climb); a pillar with an L
   on each face (one photo per face); a stair from a floor run up a wall, along a roof's
   underside through a ceiling repeater and round the roof's edge to a lamp (front, from under
-  the edge, close); and two walls meeting with a run turning the corner. What to look for:
+  the edge, close); two walls meeting with a run turning the corner; a repeater along the wall
+  and one pointing up the wall, close enough to read; and a run along the top of a block row
+  dropping into a repeater hanging below the row's edge, its lamp lit. What to look for:
   dust lines that run up the wall and along it with the right half toward the centre; the climb
   onto the block standing out of the wall; the repeater's torches on the wall with its arrow
   along the run; the comparators' torch triangle upright for one facing along the wall and one
