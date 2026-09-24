@@ -24,12 +24,14 @@ import net.neoforged.neoforge.event.entity.player.UseItemOnBlockEvent;
 import org.jetbrains.annotations.Nullable;
 
 /**
- * Vanilla's redstone, repeater and comparator items place the wall forms. The rule is the
- * torch's: after the clicked block has had its chance, the directions the placer looks along
- * are tried nearest first, with the clicked face's inward direction ahead of them all. Down
- * means the floor form, which vanilla places itself if it can stand there; a horizontal
- * direction means the wall form on the block that way, if it can hang there. Clicking a wall
- * face therefore gives the wall form, clicking a floor the floor form, as with torches.
+ * Vanilla's redstone, repeater and comparator items place the wall and ceiling forms. The rule
+ * is the torch's: after the clicked block has had its chance, the directions the placer looks
+ * along are tried nearest first, with the clicked face's inward direction ahead of them all.
+ * Down means the floor form, which vanilla places itself if it can stand there; a horizontal
+ * direction means the wall form on the block that way, if it can hang there; up means the
+ * ceiling form under the block above. Clicking a wall face therefore gives the wall form,
+ * clicking a floor the floor form and clicking the underside of a block the ceiling form, as
+ * with torches.
  */
 public final class Placement {
     private Placement() {}
@@ -62,9 +64,6 @@ public final class Placement {
                 }
                 continue;
             }
-            if (d == Direction.UP) {
-                continue;   // ceilings are not a frame yet
-            }
             BlockState state = wallState(floor, level, pos, d.getOpposite(), player);
             if (state == null || !state.canSurvive(level, pos) || !level.isUnobstructed(state, pos, CollisionContext.empty())) {
                 continue;
@@ -84,7 +83,10 @@ public final class Placement {
         return null;
     }
 
-    /** effects: returns the wall form of {@code floor} placed at {@code pos} on the wall whose face points {@code normal}, by {@code placer} */
+    /**
+     * effects: returns the form of {@code floor} placed at {@code pos} on the block whose face
+     * points {@code normal} (a wall for a horizontal normal, the ceiling for down), by {@code placer}
+     */
     @Nullable
     static BlockState wallState(Block floor, Level level, BlockPos pos, Direction normal, Player placer) {
         if (floor == Blocks.REDSTONE_WIRE) {

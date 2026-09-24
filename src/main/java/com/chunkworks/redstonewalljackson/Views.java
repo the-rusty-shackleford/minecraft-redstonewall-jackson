@@ -6,6 +6,7 @@ import com.chunkworks.redstonewalljackson.domain.Frame;
 import com.chunkworks.redstonewalljackson.domain.Planar;
 import com.chunkworks.redstonewalljackson.domain.View;
 import java.util.EnumMap;
+import java.util.Optional;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.world.level.BlockGetter;
@@ -36,6 +37,17 @@ final class Views {
         return state.getBlock() instanceof WallRedstoneWireBlock ? state.getValue(WallRedstoneWireBlock.POWER) : -1;
     }
 
+    /** effects: returns the direction from a wire of either kind into the block it rests on, or empty if {@code state} is not a wire */
+    static Optional<Direction> restsToward(BlockState state) {
+        if (state.is(Blocks.REDSTONE_WIRE)) {
+            return Optional.of(Direction.DOWN);
+        }
+        if (state.getBlock() instanceof WallRedstoneWireBlock) {
+            return Optional.of(state.getValue(WallRedstoneWireBlock.FACING).getOpposite());
+        }
+        return Optional.empty();
+    }
+
     /** effects: returns whether a wire can rest on {@code state} at {@code pos} with {@code up} out of the plane: vanilla's canSurviveOn */
     static boolean standable(BlockGetter level, BlockPos pos, BlockState state, Direction up) {
         return state.isFaceSturdy(level, pos, up) || state.is(Blocks.HOPPER);
@@ -63,7 +75,8 @@ final class Views {
         BlockPos ap = pos.relative(up);
         BlockState as = level.getBlockState(ap);
         Cell above = new Cell(wirePower(as), as.isRedstoneConductor(level, ap), false, false, false);
-        return new View(above, side, sideUp, sideDown, bestOtherSignal);
+        Optional<Planar> frontRestsOn = restsToward(as).flatMap(d -> f.planar(Frames.dir(d)));
+        return new View(above, side, sideUp, sideDown, bestOtherSignal, frontRestsOn);
     }
 
     /** The block a step beyond a side, up or down: only whether it is a wire, conducts, and connects with no direction asked. */

@@ -37,26 +37,28 @@ import net.minecraft.world.ticks.TickPriority;
 import net.neoforged.neoforge.event.EventHooks;
 
 /**
- * A repeater or comparator on a wall: vanilla's {@link DiodeBlock} with its plane stood up.
- * {@code WALL} is the wall's outward normal, {@code FACING} the direction its input comes from
- * (a planar direction of that wall: up, down, or along it), {@code POWERED} its output. The
- * input is read from the block toward FACING, the output given toward its opposite, the lock
- * and side inputs read beside it in the plane, and it rests on the wall block as a floor diode
- * rests on the block below. Every timing is vanilla's.
+ * A repeater or comparator on a wall or a ceiling: vanilla's {@link DiodeBlock} with its plane
+ * stood up or turned over. {@code WALL} is the plane's outward normal (a horizontal for a wall,
+ * down for a ceiling), {@code FACING} the direction its input comes from (a planar direction of
+ * that plane: up, down, or along a wall; a horizontal on a ceiling), {@code POWERED} its output.
+ * The input is read from the block toward FACING, the output given toward its opposite, the
+ * lock and side inputs read beside it in the plane, and it rests on the block behind it as a
+ * floor diode rests on the block below. Every timing is vanilla's.
  *
- * <p>RI: FACING lies in the wall's plane, never along its normal.
+ * <p>RI: FACING lies in the plane, never along its normal.
  */
 public abstract class WallDiodeBlock extends Block {
 
-    public static final DirectionProperty WALL = DirectionProperty.create("wall", Direction.Plane.HORIZONTAL);
+    /** The plane's outward normal: never up, which is vanilla's own floor diode. */
+    public static final DirectionProperty WALL = DirectionProperty.create("wall", d -> d != Direction.UP);
     public static final DirectionProperty FACING = BlockStateProperties.FACING;
     public static final BooleanProperty POWERED = BlockStateProperties.POWERED;
 
     private static final Map<Direction, VoxelShape> SHAPES = new EnumMap<>(Direction.class);
 
     static {
-        for (Direction wall : Direction.Plane.HORIZONTAL) {
-            SHAPES.put(wall, Frames.box(Frames.wall(wall), 0, 0, 0, 16, 16, 2));
+        for (Direction wall : WALL.getPossibleValues()) {
+            SHAPES.put(wall, Frames.box(Frames.of(wall), 0, 0, 0, 16, 16, 2));
         }
     }
 
@@ -65,12 +67,16 @@ public abstract class WallDiodeBlock extends Block {
     }
 
     static Frame frame(BlockState state) {
-        return Frames.wall(state.getValue(WALL));
+        return Frames.of(state.getValue(WALL));
     }
 
-    /** effects: returns the state of this diode placed on the wall whose face points {@code normal}, its output where {@code look} points along the wall */
+    /**
+     * effects: returns the state of this diode placed at {@code pos} on the block whose face points
+     * {@code normal} (a wall for a horizontal, the ceiling for down), its output where {@code look}
+     * points along the plane
+     */
     public BlockState placementState(LevelReader level, BlockPos pos, Direction normal, Vec3 look) {
-        Dir facing = Diode.facingFromLook(Frames.wall(normal), look.x, look.y, look.z);
+        Dir facing = Diode.facingFromLook(Frames.of(normal), look.x, look.y, look.z);
         return defaultBlockState().setValue(WALL, normal).setValue(FACING, Frames.dir(facing));
     }
 
@@ -85,7 +91,7 @@ public abstract class WallDiodeBlock extends Block {
         return canSurviveOn(level, support, level.getBlockState(support), state.getValue(WALL));
     }
 
-    /** effects: returns whether the block at {@code pos} bears a diode on its face toward {@code up}, as a floor's block bears one on top */
+    /** effects: returns whether the block at {@code pos} bears a diode on its face toward {@code up}, as a floor's block bears one on top; for a ceiling {@code up} is down */
     protected static boolean canSurviveOn(LevelReader level, BlockPos pos, BlockState state, Direction up) {
         return state.isFaceSturdy(level, pos, up, SupportType.RIGID);
     }

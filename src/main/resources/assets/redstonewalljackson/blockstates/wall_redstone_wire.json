@@ -458,6 +458,123 @@
         "model": "redstonewalljackson:block/wall_dust_up_right",
         "y": 270
       }
+    },
+    {
+      "when": {
+        "OR": [
+          {
+            "facing": "down",
+            "top": "none",
+            "bottom": "none",
+            "left": "none",
+            "right": "none"
+          },
+          {
+            "facing": "down",
+            "top": "side|up",
+            "left": "side|up"
+          },
+          {
+            "facing": "down",
+            "top": "side|up",
+            "right": "side|up"
+          },
+          {
+            "facing": "down",
+            "bottom": "side|up",
+            "left": "side|up"
+          },
+          {
+            "facing": "down",
+            "bottom": "side|up",
+            "right": "side|up"
+          }
+        ]
+      },
+      "apply": {
+        "model": "redstonewalljackson:block/wall_dust_dot",
+        "x": 90
+      }
+    },
+    {
+      "when": {
+        "facing": "down",
+        "top": "side|up"
+      },
+      "apply": {
+        "model": "redstonewalljackson:block/wall_dust_top",
+        "x": 90
+      }
+    },
+    {
+      "when": {
+        "facing": "down",
+        "top": "up"
+      },
+      "apply": {
+        "model": "redstonewalljackson:block/wall_dust_up_top",
+        "x": 90
+      }
+    },
+    {
+      "when": {
+        "facing": "down",
+        "bottom": "side|up"
+      },
+      "apply": {
+        "model": "redstonewalljackson:block/wall_dust_bottom",
+        "x": 90
+      }
+    },
+    {
+      "when": {
+        "facing": "down",
+        "bottom": "up"
+      },
+      "apply": {
+        "model": "redstonewalljackson:block/wall_dust_up_bottom",
+        "x": 90
+      }
+    },
+    {
+      "when": {
+        "facing": "down",
+        "left": "side|up"
+      },
+      "apply": {
+        "model": "redstonewalljackson:block/wall_dust_left",
+        "x": 90
+      }
+    },
+    {
+      "when": {
+        "facing": "down",
+        "left": "up"
+      },
+      "apply": {
+        "model": "redstonewalljackson:block/wall_dust_up_left",
+        "x": 90
+      }
+    },
+    {
+      "when": {
+        "facing": "down",
+        "right": "side|up"
+      },
+      "apply": {
+        "model": "redstonewalljackson:block/wall_dust_right",
+        "x": 90
+      }
+    },
+    {
+      "when": {
+        "facing": "down",
+        "right": "up"
+      },
+      "apply": {
+        "model": "redstonewalljackson:block/wall_dust_up_right",
+        "x": 90
+      }
     }
   ]
 }

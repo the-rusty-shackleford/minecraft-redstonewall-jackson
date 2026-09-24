@@ -19,15 +19,18 @@ import org.junit.jupiter.api.Test;
  * Partitions, each vanilla's rule for dust on a floor, which a view makes frame-free.
  * Joints: a wire beside; a source beside; a conductor beside with nothing on it; a climb onto
  * a sturdy block with a wire on top, a SIDE when that face is not sturdy, no climb with a
- * conductor in front of the wire; a step down beyond a non-conductor; nothing. Shapes from
- * scratch: alone is a cross, alone kept as a dot, one neighbour is a line through it, two
- * opposite a line, two adjacent a corner, three a tee, four a cross. Update of one side: a
- * joint refreshed in place, a cross redrawn, a change redrawn. Toggle: cross to dot, dot to
- * cross, a line untouched. Power: a non-wire signal; a wire beside less one; the climb only
- * with a conductor beside and nothing in front; the step only beyond a non-conductor; the
- * wire in front; fifteen from a source ends the search; the strongest wins; nothing is zero.
- * Signals: to a wire nothing; in front nothing; into the support all; along a connected side
- * all; along an unconnected side nothing; at zero nothing; the same in every frame.
+ * conductor in front of the wire; the inside corner, a climb onto the block beside that the
+ * wire in front rests on, SIDE when that face is not sturdy, nothing toward the other sides;
+ * a step down beyond a non-conductor; nothing. Shapes from scratch: alone is a cross, alone
+ * kept as a dot, one neighbour is a line through it, two opposite a line, two adjacent a
+ * corner, three a tee, four a cross. Update of one side: a joint refreshed in place, a cross
+ * redrawn, a change redrawn. Toggle: cross to dot, dot to cross, a line untouched. Power: a
+ * non-wire signal; a wire beside less one; the climb only with a conductor beside and nothing
+ * in front; the step only beyond a non-conductor; the wire in front only when it rests on a
+ * side (a wire facing this one across a gap is out of reach); fifteen from a source ends the
+ * search; the strongest wins; nothing is zero. Signals: to a wire nothing; in front nothing;
+ * into the support all; along a connected side all; along an unconnected side nothing; at
+ * zero nothing; the same in every frame.
  */
 final class WireTest {
 
@@ -49,6 +52,13 @@ final class WireTest {
         // The step down: nothing beside, a wire one step further toward the support.
         assertEquals(SIDE, Wire.connectingSide(alone().withSideDown(RIGHT, Cell.wire(9)), RIGHT));
         assertEquals(NONE, Wire.connectingSide(alone().withSide(RIGHT, Cell.solid()).withSideDown(RIGHT, Cell.wire(9)), RIGHT), "no step down through a conductor");
+        // The inside corner: the wire in front rests on the solid block beside, and the run climbs that block's face to it.
+        View corner = alone().withSide(RIGHT, Cell.solid()).withFrontRestingOn(RIGHT, 6);
+        assertEquals(UP, Wire.connectingSide(corner, RIGHT));
+        assertEquals(SIDE, Wire.connectingSide(corner.withSide(RIGHT, new Cell(-1, true, true, false, false)), RIGHT), "a face that is not sturdy is reached along the plane");
+        assertEquals(SIDE, Wire.connectingSide(corner.withSide(RIGHT, Cell.AIR), RIGHT), "as is an overhang with nothing beside");
+        assertEquals(NONE, Wire.connectingSide(corner, LEFT), "the other sides are as they were");
+        assertEquals(NONE, Wire.connectingSide(alone().withSide(RIGHT, Cell.solid()).withAbove(Cell.wire(6)), RIGHT), "a wire in front resting on nothing beside is no corner");
     }
 
     @Test
@@ -68,6 +78,8 @@ final class WireTest {
         assertEquals(Shape.CROSS, Wire.connectionState(all, false));
         View climbing = alone().withSide(LEFT, Cell.solid()).withSideUp(LEFT, Cell.wire(1));
         assertEquals(new Shape(NONE, NONE, UP, SIDE), Wire.connectionState(climbing, false), "a climb is a joint like any other, and the line runs through");
+        View turning = alone().withSide(TOP, Cell.wire(1)).withSide(LEFT, Cell.solid()).withFrontRestingOn(LEFT, 1);
+        assertEquals(new Shape(SIDE, NONE, UP, NONE), Wire.connectionState(turning, false), "a run turning the inside corner is a corner with a climb");
     }
 
     @Test
@@ -106,8 +118,10 @@ final class WireTest {
         // The step down counts only beyond a non-conductor.
         assertEquals(4, Wire.targetPower(alone().withSideDown(RIGHT, Cell.wire(5))));
         assertEquals(0, Wire.targetPower(alone().withSide(RIGHT, Cell.solid()).withSideDown(RIGHT, Cell.wire(5))));
-        // The seam: a floor wire in front of a wall wire.
-        assertEquals(13, Wire.targetPower(alone().withAbove(Cell.wire(14))));
+        // The inside corner: a wire in front resting on a side counts; one facing this wire across a gap does not.
+        assertEquals(13, Wire.targetPower(alone().withSide(BOTTOM, Cell.solid()).withFrontRestingOn(BOTTOM, 14)));
+        assertEquals(13, Wire.targetPower(alone().withFrontRestingOn(BOTTOM, 14)), "even with nothing beside, as the joint is drawn along the plane");
+        assertEquals(0, Wire.targetPower(alone().withAbove(Cell.wire(14))));
         // The strongest of everything.
         View busy = alone().withSignal(3).withSide(TOP, Cell.wire(5)).withSideDown(LEFT, Cell.wire(8)).withSide(RIGHT, Cell.solid()).withSideUp(RIGHT, Cell.wire(6));
         assertEquals(7, Wire.targetPower(busy));
@@ -116,7 +130,7 @@ final class WireTest {
     @Test
     void aWireGivesItsPowerIntoItsSupportAndAlongConnectedSidesAndNothingToWiresOrForward() {
         Shape line = new Shape(SIDE, SIDE, NONE, NONE);
-        for (Frame f : List.of(Frame.FLOOR, Frame.wall(Dir.NORTH), Frame.wall(Dir.EAST), Frame.wall(Dir.SOUTH), Frame.wall(Dir.WEST))) {
+        for (Frame f : List.of(Frame.FLOOR, Frame.wall(Dir.NORTH), Frame.wall(Dir.EAST), Frame.wall(Dir.SOUTH), Frame.wall(Dir.WEST), Frame.CEILING)) {
             assertEquals(9, Wire.signal(9, line, f, f.support(), false), f + ": into the support");
             assertEquals(0, Wire.signal(9, line, f, f.up(), false), f + ": nothing forward");
             assertEquals(9, Wire.signal(9, line, f, f.world(TOP), false), f + ": along a connected side");
@@ -132,7 +146,8 @@ final class WireTest {
         assertThrows(IllegalArgumentException.class, () -> new Cell(16, false, false, false, false));
         assertThrows(IllegalArgumentException.class, () -> new Cell(-2, false, false, false, false));
         assertThrows(IllegalArgumentException.class, () -> alone().withSignal(16));
-        assertThrows(IllegalArgumentException.class, () -> new View(Cell.AIR, java.util.Map.of(), java.util.Map.of(), java.util.Map.of(), 0));
+        assertThrows(IllegalArgumentException.class, () -> new View(Cell.AIR, java.util.Map.of(), java.util.Map.of(), java.util.Map.of(), 0, Optional.empty()));
+        assertThrows(IllegalArgumentException.class, () -> new View(Cell.AIR, alone().side(), alone().sideUp(), alone().sideDown(), 0, Optional.of(TOP)), "only a wire in front rests on a side");
         assertEquals(true, Cell.wire(0).wire());
         assertEquals(false, Cell.solid().wire());
     }

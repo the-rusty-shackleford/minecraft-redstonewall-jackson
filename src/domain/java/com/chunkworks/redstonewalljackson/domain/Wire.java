@@ -6,12 +6,15 @@ import java.util.Optional;
 /**
  * Vanilla's redstone dust rules, written once over a {@link View} so they hold in every
  * {@link Frame}: how a wire reaches its sides, what power it settles at, and what it gives a
- * neighbour. The floor frame reproduces vanilla; a wall frame is the same rule turned.
+ * neighbour. The floor frame reproduces vanilla; a wall or ceiling frame is the same rule turned.
  *
- * <p>Two things are not vanilla's, both for the seam between a wall run and a floor run:
- * the block in front of the wire counts as a wire neighbour when it is one (on a floor nothing
- * is ever a wire there), and a wire gives another wire nothing through a signal, since wires read
- * each other's power directly and vanilla loses a point of power across every wire-to-wire step.
+ * <p>Two things are not vanilla's, both for the inside corner where a run turns from one plane
+ * onto the plane at right angles to it (a floor run up a wall, a wall run onto the ceiling, one
+ * wall onto the next): the wire in front of this one counts as a neighbour when it rests on the
+ * block beside this wire, drawn as vanilla's climb up that block's face (on a floor nothing is
+ * ever a wire in front); and a wire gives another wire nothing through a signal, since wires
+ * read each other's power directly and vanilla loses a point of power across every wire-to-wire
+ * step.
  */
 public final class Wire {
     private Wire() {}
@@ -19,12 +22,17 @@ public final class Wire {
     /**
      * effects: returns how the wire meets its side {@code p}: climbing (UP) the sturdy face of a
      * block there that a wire sits on top of, provided nothing solid stands in front of this wire;
-     * SIDE for a block that connects, or for a step down to a connecting block below a
-     * non-conductor; NONE for a conductor with no wire on it and for empty space
+     * likewise climbing that face when the wire in front rests on the block there (the inside
+     * corner), SIDE if the face is not sturdy; SIDE for a block that connects, or for a step down
+     * to a connecting block below a non-conductor; NONE for a conductor with no wire on it and
+     * for empty space
      */
     public static Joint connectingSide(View v, Planar p) {
         Cell side = v.side(p);
         if (!v.above().conductor() && side.standable() && v.sideUp(p).connects()) {
+            return side.sturdyTowardWire() ? Joint.UP : Joint.SIDE;
+        }
+        if (v.frontRestsOn().equals(Optional.of(p))) {
             return side.sturdyTowardWire() ? Joint.UP : Joint.SIDE;
         }
         if (side.connects()) {
@@ -95,8 +103,8 @@ public final class Wire {
      * effects: returns the power the wire settles at: the strongest non-wire signal it receives,
      * or one less than the strongest wire it touches, whichever is more. A wire is touched one
      * planar step away; one step up beyond a conductor when nothing solid stands in front of this
-     * wire (the climb); one step down beyond a non-conductor (the step); and, only ever on a wall,
-     * in front of the wire where a floor run meets it
+     * wire (the climb); one step down beyond a non-conductor (the step); and in front of the wire
+     * when the wire there rests on a block beside this one (the inside corner)
      */
     public static int targetPower(View v) {
         int i = v.bestOtherSignal();
@@ -111,7 +119,9 @@ public final class Wire {
                     j = Math.max(j, v.sideDown(p).wirePower());
                 }
             }
-            j = Math.max(j, v.above().wirePower());
+            if (v.frontRestsOn().isPresent()) {
+                j = Math.max(j, v.above().wirePower());
+            }
         }
         return Math.max(i, j - 1);
     }

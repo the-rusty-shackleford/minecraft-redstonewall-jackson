@@ -14,6 +14,7 @@ import java.util.HashSet;
 import java.util.Map;
 import java.util.Optional;
 import java.util.Set;
+import java.util.function.UnaryOperator;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.core.particles.DustParticleOptions;
@@ -47,17 +48,19 @@ import net.minecraft.world.phys.shapes.VoxelShape;
 import org.jetbrains.annotations.Nullable;
 
 /**
- * Redstone dust on a wall: vanilla's dust with its plane stood up. {@code FACING} is the wall's
- * outward normal (the dust faces that way); TOP, BOTTOM, LEFT and RIGHT are its joints in the
- * plane, as a person facing the wall sees them; POWER is the power. Every rule is
- * {@link Wire}'s over a {@link View} that {@link Views} reads in the block's {@link Frame}, so a
- * wall run behaves as the floor run it is a turned copy of. It places from vanilla's redstone
- * item ({@link Placement}) and drops it.
+ * Redstone dust on a wall or a ceiling: vanilla's dust with its plane stood up or turned over.
+ * {@code FACING} is the plane's outward normal (the dust faces that way: a horizontal for a
+ * wall, down for a ceiling); TOP, BOTTOM, LEFT and RIGHT are its joints in the plane, as a
+ * person facing the plane sees them; POWER is the power. Every rule is {@link Wire}'s over a
+ * {@link View} that {@link Views} reads in the block's {@link Frame}, so a wall run behaves as
+ * the floor run it is a turned copy of. It places from vanilla's redstone item
+ * ({@link Placement}) and drops it.
  */
 public final class WallRedstoneWireBlock extends Block {
 
     public static final MapCodec<WallRedstoneWireBlock> CODEC = simpleCodec(WallRedstoneWireBlock::new);
-    public static final DirectionProperty FACING = BlockStateProperties.HORIZONTAL_FACING;
+    /** The plane's outward normal: never up, which is vanilla's own floor dust. */
+    public static final DirectionProperty FACING = DirectionProperty.create("facing", d -> d != Direction.UP);
     public static final EnumProperty<RedstoneSide> TOP = EnumProperty.create("top", RedstoneSide.class);
     public static final EnumProperty<RedstoneSide> BOTTOM = EnumProperty.create("bottom", RedstoneSide.class);
     public static final EnumProperty<RedstoneSide> LEFT = EnumProperty.create("left", RedstoneSide.class);
@@ -106,7 +109,12 @@ public final class WallRedstoneWireBlock extends Block {
     // --- the frame and the shape as the domain sees them ---------------------
 
     static Frame frame(BlockState state) {
-        return Frames.wall(state.getValue(FACING));
+        return Frames.of(state.getValue(FACING));
+    }
+
+    /** effects: returns the direction from a wire of either kind (vanilla's dust or this) into the block it rests on, or empty for anything else */
+    public static Optional<Direction> restsToward(BlockState state) {
+        return Views.restsToward(state);
     }
 
     static Shape shapeOf(BlockState state) {
@@ -136,7 +144,10 @@ public final class WallRedstoneWireBlock extends Block {
         };
     }
 
-    /** effects: returns the state of dust placed on the wall whose face points {@code normal} at {@code pos}: a cross drawn against its neighbours */
+    /**
+     * effects: returns the state of dust placed at {@code pos} on the block whose face points
+     * {@code normal} (a wall for a horizontal, the ceiling for down): a cross drawn against its neighbours
+     */
     public static BlockState placementState(BlockGetter level, BlockPos pos, Direction normal) {
         BlockState state = ModBlocks.WALL_REDSTONE_WIRE.get().defaultBlockState().setValue(FACING, normal);
         return withShape(state, Wire.connectionState(Views.of(level, pos, frame(state)), false));
@@ -345,7 +356,7 @@ public final class WallRedstoneWireBlock extends Block {
     /**
      * effects: returns whether a neighbour in the direction opposite {@code direction} (the
      * direction is from the asker to this block, as vanilla asks it) can connect: anything in
-     * the plane or in front of the wire, never the wall behind it; anything at all when no
+     * the plane or in front of the wire, never the block behind it; anything at all when no
      * direction is asked
      */
     @Override
@@ -427,17 +438,28 @@ public final class WallRedstoneWireBlock extends Block {
 
     @Override
     protected BlockState rotate(BlockState state, Rotation rotation) {
-        return state.setValue(FACING, rotation.rotate(state.getValue(FACING)));
+        return turned(state, rotation::rotate);
     }
 
-    /** effects: mirrors the wall and, since a mirror swaps a viewer's hands, the LEFT and RIGHT joints */
     @Override
     protected BlockState mirror(BlockState state, Mirror mirror) {
-        if (mirror == Mirror.NONE) {
-            return state;
+        return turned(state, mirror::mirror);
+    }
+
+    /**
+     * effects: returns {@code state} with its plane and every joint carried through {@code turn},
+     * a rotation or a mirror of world directions: each joint goes to the planar direction of the
+     * new frame that its world direction turns into (on a wall a mirror swaps a viewer's hands)
+     */
+    private static BlockState turned(BlockState state, UnaryOperator<Direction> turn) {
+        Frame from = frame(state);
+        BlockState result = state.setValue(FACING, turn.apply(state.getValue(FACING)));
+        Frame to = frame(result);
+        for (Planar p : Planar.values()) {
+            Planar q = to.planar(Frames.dir(turn.apply(Frames.world(from, p)))).orElseThrow();
+            result = result.setValue(PROPERTY_BY_PLANAR.get(q), state.getValue(PROPERTY_BY_PLANAR.get(p)));
         }
-        return state.setValue(FACING, mirror.mirror(state.getValue(FACING)))
-                .setValue(LEFT, state.getValue(RIGHT)).setValue(RIGHT, state.getValue(LEFT));
+        return result;
     }
 
     @Override

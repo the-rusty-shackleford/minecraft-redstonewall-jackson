@@ -40,5 +40,9 @@ final class DiodeTest {
         assertEquals(Dir.DOWN, Diode.facingFromLook(north, 0, 0.5, -10), "the component out of the wall does not count");
         assertThrows(IllegalArgumentException.class, () -> Diode.facingFromLook(north, 0, 0, 0));
         assertEquals(Dir.DOWN, Diode.facingFromLook(north, 1, 1, 0), "a tie goes to the top");
+        // The ceiling: looking up and mostly north places the input south, as on the floor; the sides are east and west.
+        assertEquals(Dir.SOUTH, Diode.facingFromLook(Frame.CEILING, 0.1, 0.9, -0.4));
+        assertEquals(Dir.WEST, Diode.facingFromLook(Frame.CEILING, 1, 0.9, 0.2));
+        assertEquals(List.of(Dir.EAST, Dir.WEST), Diode.sides(Frame.CEILING, Dir.NORTH));
     }
 }

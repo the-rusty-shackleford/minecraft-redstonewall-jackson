@@ -1,11 +1,12 @@
 # Copyright (C) 2026 Rusty Shackleford and nfx. SPDX-License-Identifier: AGPL-3.0-or-later
-"""Generate the wall blocks' blockstates and models from vanilla's own.
+"""Generate the wall and ceiling blocks' blockstates and models from vanilla's own.
 
 Why generated: a wall plane is vanilla's floor plane turned, but a blockstate's x-then-y
 rotation reaches only sixteen of the twenty-four orientations of a block, so every diode that
 faces along a wall (rather than up or down it) needs a model file whose elements are already
 turned about the vertical axis. Dust is simpler: its parts are flat quads, drawn here directly
-for a north-facing wall and turned to the other walls with a y rotation.
+for a north-facing wall and turned to the other walls with a y rotation, and to the ceiling
+(the north wall tipped back over your head) with an x rotation.
 
 Conventions verified against vanilla's own blockstates (ladder: y=90 turns north to east;
 lever: x=90 turns up to north), as rotations of a point about the block's centre:
@@ -61,10 +62,16 @@ def solve(model_up, model_front, target_up, target_front):
     raise AssertionError(f'no rotation takes {model_front} onto {target_front} with up {target_up}')
 
 
-# --- the wall's planar directions, as the domain's Frame defines them -------------
+# --- the plane's planar directions, as the domain's Frame defines them -------------
+
+FACES = HORIZONTAL + ['down']   # every plane the blocks take: the four walls and the ceiling
+
 
 def planar(normal):
-    """TOP, BOTTOM, LEFT, RIGHT as world direction names for the wall whose face points normal."""
+    """TOP, BOTTOM, LEFT, RIGHT as world direction names for the plane whose face points normal."""
+    if normal == 'down':
+        # The ceiling: the north wall tipped back over your head; north beyond your head, east on the left.
+        return {'top': 'north', 'bottom': 'south', 'left': 'east', 'right': 'west'}
     support = NAME[tuple(-c for c in DIRS[normal])]
     order = ['north', 'east', 'south', 'west']
     cw = order[(order.index(support) + 1) % 4]
@@ -126,10 +133,12 @@ def dust_models():
 
 
 def dust_blockstate():
-    y_of = {'north': 0, 'east': 90, 'south': 180, 'west': 270}
+    """The north-wall quads turned to every plane: solved from the model's up (north) and TOP (up) to the plane's."""
     parts = []
-    for facing, y in y_of.items():
-        model = lambda part: {'model': f'{MOD}:block/{part}', **({'y': y} if y else {})}
+    for facing in FACES:
+        pre, x, y = solve(DIRS['north'], DIRS['up'], DIRS[facing], DIRS[planar(facing)['top']])
+        assert pre == 0, f'the dust for {facing} needs a pre-yaw, which dust models do not have'
+        model = lambda part: {'model': f'{MOD}:block/{part}', **({'x': x} if x else {}), **({'y': y} if y else {})}
         joined = 'side|up'
         parts.append({'when': {'OR': [
             {'facing': facing, 'top': 'none', 'bottom': 'none', 'left': 'none', 'right': 'none'},
@@ -172,7 +181,7 @@ def yawed(model, times):
 
 
 def diode_assets(jar):
-    """Blockstates and models for the wall repeater and comparator, from vanilla's."""
+    """Blockstates and models for the wall and ceiling repeater and comparator, from vanilla's."""
     vanilla_states = {name: json.loads(jar.read(f'assets/minecraft/blockstates/{name}.json')) for name in ('repeater', 'comparator')}
     # The direction vanilla's unrotated model faces (its input side), read off the blockstate.
     native = {}
@@ -187,11 +196,11 @@ def diode_assets(jar):
     for name in ('repeater', 'comparator'):
         model_front = DIRS[native[name]]
         variants = {}
-        for wall in HORIZONTAL:
+        for wall in FACES:
             plane_dirs = planar(wall)
             for facing in ['up', 'down', 'north', 'south', 'west', 'east']:
-                # A facing along the wall's normal is not a state the block ever takes; it shows the up model.
-                target = facing if facing in plane_dirs.values() else 'up'
+                # A facing along the plane's normal is not a state the block ever takes; it shows the model facing TOP.
+                target = facing if facing in plane_dirs.values() else plane_dirs['top']
                 pre, x, y = solve((0, 1, 0), model_front, DIRS[wall], DIRS[target])
                 for key, variant in vanilla_states[name]['variants'].items():
                     props = dict(kv.split('=') for kv in key.split(','))

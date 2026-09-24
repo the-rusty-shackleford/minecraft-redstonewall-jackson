@@ -26,10 +26,13 @@ import net.neoforged.neoforge.client.event.ClientTickEvent;
 import net.neoforged.neoforge.client.event.RenderGuiEvent;
 
 /**
- * Eyes for the wall blocks: builds a wall with a powered dust run climbing it, a repeater and
- * two comparators on it, a floor run in front for comparison, then photographs the scene from
- * the front, from an angle and close up, and quits. Run with {@code ./gradlew runPhotoBooth};
- * the pictures land in {@code run/booth/screenshots}. What to look for is in the README.
+ * Eyes for the wall and ceiling blocks: builds a wall with a powered dust run climbing it, a
+ * repeater and two comparators on it, a floor run in front for comparison; a pillar with an L
+ * of dust on each face; a run from the floor up a wall, along a ceiling and round its front
+ * edge to a lamp, through a ceiling repeater; and two walls meeting at an inside corner with a
+ * run turning it. Then it photographs each from where its joints show, and quits. Run with
+ * {@code ./gradlew runPhotoBooth}; the pictures land in {@code run/booth/screenshots}. What to
+ * look for is in the README.
  */
 @EventBusSubscriber(modid = "redstonewalljackson_gametest", value = Dist.CLIENT)
 public final class PhotoBooth {
@@ -49,8 +52,21 @@ public final class PhotoBooth {
             {9.0, 2.4, -3.6, 0, 5},       // close: the repeater and the two comparators
             {0.5, 1.5, -3.5, -35, 10},    // the seam where the floor run meets the wall run
             {6.5, 0.6, -3.2, 0, -35},     // from below: the climb onto the block standing out of the wall
+            // The pillar at x 16..18, z -8..-6: an L on each face, seen face-on from each side.
+            {17.5, 2.5, -12.0, 0, 10},    // its north face, looking south
+            {23.0, 2.5, -7.0, 90, 10},    // its east face, looking west
+            {17.5, 2.5, -2.0, 180, 10},   // its south face, looking north
+            {12.0, 2.5, -7.0, 270, 10},   // its west face, looking east
+            // The stair at x=-6: floor run, up the wall, along the roof's underside, round its front edge to the lamp.
+            {-6.0, 0.6, -11.0, 0, 2},     // from the front: the floor run to the wall's foot, the climb, the roof's front with the lamp
+            {-6.0, 0.0, -6.8, 0, -32},    // from under the roof's edge, looking up: the ceiling run and the corner onto the wall
+            {-4.2, 0.4, -2.2, 35, -28},   // close, from beside: the wall run meeting the ceiling run under the roof
+            // Two walls meeting at x=23, z=-7: a run along one turning onto the other.
+            {27.5, 1.0, -12.5, 39, 8},    // from outside the corner, looking into it
     };
-    private static final String[] NAMES = {"wall-front", "wall-angle", "wall-close", "wall-seam", "wall-climb"};
+    private static final String[] NAMES = {"wall-front", "wall-angle", "wall-close", "wall-seam", "wall-climb",
+            "corner-north", "corner-east", "corner-south", "corner-west",
+            "stair-front", "stair-under", "stair-close", "inside-corner"};
 
     @SubscribeEvent
     public static void tick(ClientTickEvent.Post event) {
@@ -99,10 +115,10 @@ public final class PhotoBooth {
         }
     }
 
-    /** The scene: a stone wall along x at z, dust climbing it from a floor run, diodes on it, a lamp at the top. */
+    /** The scene: a stone wall along x at z, dust climbing it from a floor run, diodes on it, a lamp at the top; the pillar; the stair; the inside corner. */
     private static void build(ServerLevel level, BlockPos o) {
-        for (int x = -2; x <= 12; x++) {
-            for (int z = -8; z <= 1; z++) {
+        for (int x = -10; x <= 12; x++) {
+            for (int z = -12; z <= 1; z++) {
                 level.setBlock(o.offset(x, -1, z), Blocks.STONE.defaultBlockState(), 3);
             }
             for (int y = 0; y <= 6; y++) {
@@ -135,8 +151,92 @@ public final class PhotoBooth {
         level.setBlock(o.offset(6, 3, -1), Blocks.SMOOTH_STONE.defaultBlockState(), 3);
         BlockPos onIt = o.offset(6, 3, -2);
         level.setBlock(onIt, WallRedstoneWireBlock.placementState(level, onIt, Direction.NORTH), 3);
+        // A pillar with an L of dust on each of its four faces: up from a redstone block at the foot, then
+        // along to the right as seen facing that wall, so every wall's LEFT and RIGHT are in the picture.
+        for (int x = 16; x <= 18; x++) {
+            for (int z = -8; z <= -6; z++) {
+                for (int y = -1; y <= 5; y++) {
+                    level.setBlock(o.offset(x, y, z), Blocks.SMOOTH_STONE.defaultBlockState(), 3);
+                }
+            }
+        }
+        for (int y = 0; y <= 5; y++) {
+            for (int dx = -1; dx <= 3; dx++) {
+                level.setBlock(o.offset(15 + dx, y, -9), Blocks.AIR.defaultBlockState(), 3);
+            }
+        }
+        pillarCorner(level, o.offset(17, 0, -9), Direction.NORTH, Direction.WEST);   // north face: along to the west (the viewer's right)
+        pillarCorner(level, o.offset(19, 0, -7), Direction.EAST, Direction.NORTH);   // east face: along to the north
+        pillarCorner(level, o.offset(17, 0, -5), Direction.SOUTH, Direction.EAST);   // south face: along to the east
+        pillarCorner(level, o.offset(15, 0, -7), Direction.WEST, Direction.SOUTH);   // west face: along to the south
+        // The stair at x=-6: a roof at y=3 out from the wall over z -4..-1. A floor run to the wall's foot, wall dust
+        // up to the roof, a ceiling run out along the roof's underside through a repeater, and round the roof's
+        // front edge up its face to a lamp on top.
+        for (int x = -8; x <= -4; x++) {
+            for (int z = -4; z <= -1; z++) {
+                level.setBlock(o.offset(x, 3, z), Blocks.SMOOTH_STONE.defaultBlockState(), 3);
+            }
+        }
+        for (int z = -7; z <= -1; z++) {
+            level.setBlock(o.offset(-6, 0, z), Blocks.REDSTONE_WIRE.defaultBlockState(), 3);
+        }
+        for (int y = 1; y <= 2; y++) {
+            BlockPos pos = o.offset(-6, y, -1);
+            level.setBlock(pos, WallRedstoneWireBlock.placementState(level, pos, Direction.NORTH), 3);
+        }
+        BlockPos underFirst = o.offset(-6, 2, -2);
+        level.setBlock(underFirst, WallRedstoneWireBlock.placementState(level, underFirst, Direction.DOWN), 3);
+        level.setBlock(o.offset(-6, 2, -3), ModBlocks.WALL_REPEATER.get().defaultBlockState()
+                .setValue(WallDiodeBlock.WALL, Direction.DOWN).setValue(WallDiodeBlock.FACING, Direction.SOUTH).setValue(WallRepeaterBlock.DELAY, 2), 3);
+        BlockPos underLast = o.offset(-6, 2, -4);
+        level.setBlock(underLast, WallRedstoneWireBlock.placementState(level, underLast, Direction.DOWN), 3);
+        BlockPos roofFace = o.offset(-6, 3, -5);
+        level.setBlock(roofFace, WallRedstoneWireBlock.placementState(level, roofFace, Direction.NORTH), 3);
+        level.setBlock(o.offset(-6, 4, -5), Blocks.REDSTONE_LAMP.defaultBlockState(), 3);
+        // Two walls meeting: wall A along x at z=-6 (its north face at z=-7), wall B along z at x=22 (its east face at
+        // x=23). A run along A turns the inside corner onto B and ends at a lamp.
+        for (int y = 0; y <= 3; y++) {
+            for (int x = 22; x <= 26; x++) {
+                level.setBlock(o.offset(x, y, -6), Blocks.SMOOTH_STONE.defaultBlockState(), 3);
+            }
+            for (int z = -7; z >= -11; z--) {
+                level.setBlock(o.offset(22, y, z), Blocks.SMOOTH_STONE.defaultBlockState(), 3);
+            }
+        }
+        for (int z = -12; z <= -7; z++) {
+            for (int x = 22; x <= 28; x++) {
+                level.setBlock(o.offset(x, -1, z), Blocks.STONE.defaultBlockState(), 3);
+            }
+        }
+        for (int x = 25; x >= 23; x--) {
+            BlockPos pos = o.offset(x, 0, -7);
+            level.setBlock(pos, WallRedstoneWireBlock.placementState(level, pos, Direction.NORTH), 3);
+        }
+        for (int z = -8; z >= -10; z--) {
+            BlockPos pos = o.offset(23, 0, z);
+            level.setBlock(pos, WallRedstoneWireBlock.placementState(level, pos, Direction.EAST), 3);
+        }
+        level.setBlock(o.offset(23, 0, -11), Blocks.REDSTONE_LAMP.defaultBlockState(), 3);
+        // The sources, last.
         level.setBlock(o.offset(2, 0, -6), Blocks.REDSTONE_BLOCK.defaultBlockState(), 3);
         level.setBlock(o.offset(5, 2, -1), Blocks.REDSTONE_BLOCK.defaultBlockState(), 3);
+        for (BlockPos foot : new BlockPos[] {o.offset(17, -1, -9), o.offset(19, -1, -7), o.offset(17, -1, -5), o.offset(15, -1, -7)}) {
+            level.setBlock(foot, Blocks.REDSTONE_BLOCK.defaultBlockState(), 3);
+        }
+        level.setBlock(o.offset(-6, 0, -8), Blocks.REDSTONE_BLOCK.defaultBlockState(), 3);
+        level.setBlock(o.offset(26, 0, -7), Blocks.REDSTONE_BLOCK.defaultBlockState(), 3);
+    }
+
+    /** An L on the face pointing {@code normal}: three up from {@code foot}, then two along {@code along}. */
+    private static void pillarCorner(ServerLevel level, BlockPos foot, Direction normal, Direction along) {
+        for (int y = 0; y <= 2; y++) {
+            BlockPos pos = foot.above(y);
+            level.setBlock(pos, WallRedstoneWireBlock.placementState(level, pos, normal), 3);
+        }
+        for (int step = 1; step <= 1; step++) {
+            BlockPos pos = foot.above(2).relative(along, step);
+            level.setBlock(pos, WallRedstoneWireBlock.placementState(level, pos, normal), 3);
+        }
     }
 
     private static BlockState diode(BlockState state, Direction facing) {

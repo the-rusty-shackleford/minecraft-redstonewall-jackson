@@ -22,9 +22,9 @@ final class Frames {
         return Dir.valueOf(d.name());
     }
 
-    /** effects: returns the frame of the wall whose face points {@code normal} */
-    static Frame wall(Direction normal) {
-        return Frame.wall(dir(normal));
+    /** effects: returns the frame whose outward normal is {@code up}: a wall's face, the ceiling (down) or the floor (up) */
+    static Frame of(Direction up) {
+        return Frame.facing(dir(up));
     }
 
     /** effects: returns the world direction planar {@code p} runs in, in frame {@code f} */
