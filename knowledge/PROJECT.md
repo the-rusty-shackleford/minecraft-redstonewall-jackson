@@ -50,8 +50,19 @@ Decisions: [D-0001](decisions/D-0001.md), [D-0002](decisions/D-0002.md),
 0.3.0 built 2026-09-24 UTC: a wall diode also reads the block it hangs on (D-0003), after
 Rusty's repeater under a row of dust on the box stayed off; `RepeaterGameTests` (6) and
 `SupportGameTests` (4) added, 34 real-server GameTests in all, the booth's sixteen photos
-including Rusty's step lit (`devtools/verification/0.3.0.md`). Release on Rusty's "Pack and
-release with 2 minute server restart warning when you're all satisfied": below once done.
+including Rusty's step lit (`devtools/verification/0.3.0.md`). Published and deployed in
+pack 1.58.1 (below); whether Rusty's own repeater lit up is the next thing to hear.
+
+## Published and deployed — 2026-09-24 UTC, pack 1.58.1
+
+Version 0.3.0 is [published](https://github.com/the-rusty-shackleford/minecraft-redstonewall-jackson/releases/tag/v0.3.0)
+and deployed through Mod Hub in pack **1.58.1**, replacing 0.2.0 on the server half an hour
+after it. Release asset, tested jar and installed server jar match SHA-1
+`cbdbb71d9896077be0423d2091150c9eeaa60ec3`. Rusty: "Pack and release with 2 minute server
+restart warning when you're all satisfied". Restart 00:47:14 UTC after the warning, everyone
+having left, ready at 00:47:28, the log noting "redstonewalljackson (version 0.2.0 -> 0.3.0)"
+and nothing else naming the mod, 20 TPS, Mod Hub parity clean. The server repo's
+`knowledge/releases/pack-1.58.1.md` has the whole deployment.
 
 0.2.0 (2026-09-23 evening): corners drawn as vanilla's climb, ceilings, and vanilla floor
 dust joining a wall run above it. 16 JUnit, 24 real-server GameTests, thirteen booth photos
