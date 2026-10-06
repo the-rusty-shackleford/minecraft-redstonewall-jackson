@@ -1,0 +1,8 @@
+{"shots": [
+  {"from": "run/booth/screenshots/wall-front.png", "to": "img/wall.webp"},
+  {"from": "run/booth/screenshots/wall-climb.png", "to": "img/climb.webp"},
+  {"from": "run/booth/screenshots/repeater-along.png", "to": "img/repeater.webp"},
+  {"from": "run/booth/screenshots/stair-under.png", "to": "img/ceiling.webp"},
+  {"from": "run/booth/screenshots/inside-corner.png", "to": "img/corner.webp"},
+  {"from": "run/booth/screenshots/row-repeater.png", "to": "img/row-repeater.webp"}
+]}
